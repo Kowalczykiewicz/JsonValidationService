@@ -1,17 +1,22 @@
+import Dependencies.scalaTest
+import sbt.Keys.resolvers
+
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala)
   .settings(
-    name := """play-scala-hello-world-tutorial""",
+    name := "Json Validation Service",
     organization := "com.example",
     version := "1.0-SNAPSHOT",
-    scalaVersion := "2.13.6",
-    libraryDependencies ++= Seq(
-      guice,
-      "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
-    ),
+    scalaVersion := "2.12.12",
+    libraryDependencies ++= Seq(scalaTest % "test, it"),
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
+      "-unchecked",
       "-Xfatal-warnings"
+    ),
+    resolvers ++= Seq(
+      "Typesafe" at "https://repo.typesafe.com/typesafe/releases/",
+      "Typesafe-ivy-releases" at "https://repo.typesafe.com/typesafe/ivy-releases"
     )
   )
