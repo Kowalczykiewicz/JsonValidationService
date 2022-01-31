@@ -8,7 +8,7 @@ lazy val root = (project in file("."))
     organization := "com.example",
     version := "1.0-SNAPSHOT",
     scalaVersion := "2.12.12",
-    libraryDependencies ++= Seq(scalaTest % "test, it"),
+    libraryDependencies ++= Seq(scalaTest % "test"),
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
