@@ -13,7 +13,13 @@ lazy val root = (project in file("."))
       "-feature",
       "-deprecation",
       "-unchecked",
-      "-Xfatal-warnings"
+      "-Xfatal-warnings",
+      "-Yno-adapted-args",
+      "-Ywarn-dead-code",
+      "-Ywarn-numeric-widen",
+      "-Ywarn-value-discard",
+      "-Ywarn-unused",
+      "-Xlint:unsound-match"
     ),
     resolvers ++= Seq(
       "Typesafe" at "https://repo.typesafe.com/typesafe/releases/",
