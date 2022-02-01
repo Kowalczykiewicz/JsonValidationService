@@ -1,7 +1,7 @@
 package controllers
 
 import play.api.mvc._
-import services.{ SchemaService, ValidationService }
+import services.{ DBService, ValidationService }
 
 import javax.inject._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class ValidationController @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
 
   def validate(schemaId: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
-    SchemaService.download(schemaId).map {
+    DBService.download(schemaId).map {
       case Some(schema) =>
         request.body.asJson match {
           case Some(json) =>

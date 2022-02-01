@@ -8,7 +8,7 @@ import slick.jdbc.H2Profile.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object SchemaService {
+object DBService {
   def upload(schemaId: String, json: JsValue): Future[Either[JsValue, JsValue]] = {
     def isValid(json: JsValue) = true
 
