@@ -6,7 +6,7 @@
 GET     /                        controllers.HomeController.index()
 
 POST    /schema/:schemaId        controllers.SchemaController.upload(schemaId)
-GET     /schema/:schemaId        controllers.SchemaController.upload(schemaId)
+GET     /schema/:schemaId        controllers.SchemaController.download(schemaId)
 
 POST    /validate/:schemaId      controllers.ValidationController.validate(schemaId)
 
