@@ -1,38 +1,31 @@
 package controllers
 
-import play.api.libs.json.Json
 import play.api.mvc._
-
-import javax.inject._
 import services.SchemaService
 
-import scala.util.{ Failure, Success }
+import javax.inject._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 @Singleton
 class SchemaController @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
 
-  def upload(schemaId: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+  def upload(schemaId: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
     request.body.asJson match {
       case Some(json) =>
-        SchemaService.upload(schemaId, json) match {
-          case Success(_) =>
-            Created(s"Schema $schemaId successfully uploaded")
-          case Failure(exception) =>
-            BadRequest(s"Upload failed $exception for schema $schemaId")
+        SchemaService.upload(schemaId, json).map {
+          case Right(x) => Created(s"Schema $schemaId successfully uploaded")
+          case Left(x)  => BadRequest(s"Upload failed $x for schema $schemaId")
         }
       case None =>
-        BadRequest("Incorrect request, only JSONs are expected")
+        Future(BadRequest("Incorrect request, only JSONs are expected"))
     }
   }
 
-  def download(schemaId: String): Action[AnyContent] = Action {
-    SchemaService.download(schemaId) match {
-      case Success(Some(schema)) =>
-        Ok(Json.toJson(schema))
-      case Success(None) =>
-        NotFound(s"There is no schema $schemaId")
-      case Failure(exception) =>
-        BadRequest(s"Can not download schema $schemaId, exception: $exception")
+  def download(schemaId: String): Action[AnyContent] = Action.async {
+    SchemaService.download(schemaId).map {
+      case Some(schema) => Ok("schema")
+      case None         => NotFound(s"There is no schema $schemaId")
     }
   }
 

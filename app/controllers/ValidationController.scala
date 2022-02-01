@@ -1,25 +1,28 @@
 package controllers
 
 import play.api.mvc._
-import services.ValidationService
+import services.{ SchemaService, ValidationService }
 
 import javax.inject._
-import scala.util.{ Failure, Success }
+import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
 class ValidationController @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
 
-  def validate(schemaId: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    request.body.asJson match {
-      case Some(json) =>
-        ValidationService.validate(schemaId, json) match {
-          case Success(cleanJson) =>
-            Ok(cleanJson)
-          case Failure(exception) =>
-            BadRequest(s"Upload failed $exception for schema $schemaId")
+  def validate(schemaId: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    SchemaService.download(schemaId).map {
+      case Some(schema) =>
+        request.body.asJson match {
+          case Some(json) =>
+            ValidationService.validate(schema, json) match {
+              case Right(cleanJson) => Ok(cleanJson)
+              case Left(diffJson)   => BadRequest(diffJson)
+            }
+          case None =>
+            BadRequest("Incorrect request, only JSONs are expected")
         }
       case None =>
-        BadRequest("Incorrect request, only JSONs are expected")
+        NotFound(s"Schema $schemaId is not uploaded")
     }
   }
 

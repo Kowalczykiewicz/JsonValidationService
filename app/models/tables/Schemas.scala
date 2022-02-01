@@ -9,6 +9,6 @@ class Schemas(tag: Tag) extends Table[Schema](tag, "schemas") {
   def * = (id, json) <> (Schema.tupled, Schema.unapply)
 }
 
-object Lectures {
+object Schemas {
   lazy val query = TableQuery[Schemas]
 }

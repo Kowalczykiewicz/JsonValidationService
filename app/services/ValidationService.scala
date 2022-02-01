@@ -1,9 +1,12 @@
 package services
 
-import play.api.libs.json.JsValue
-
-import scala.util.Try
+import models.Schema
+import play.api.libs.json.{ JsNull, JsValue }
 
 object ValidationService {
-  def validate(schemaId: String, json: JsValue): Try[JsValue] = ???
+  def validate(schema: Schema, json: JsValue): Either[JsValue, JsValue] = {
+    def validateJson(schema: Schema, json: JsValue): Boolean = true
+
+    if (validateJson(schema, json)) Right(JsNull) else Left(JsNull)
+  }
 }
