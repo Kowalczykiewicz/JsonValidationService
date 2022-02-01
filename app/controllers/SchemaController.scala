@@ -11,11 +11,12 @@ import scala.util.{ Failure, Success }
 @Singleton
 class SchemaController @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
 
-  def upload(schemaId: String): Action[_] = Action { implicit request: Request[AnyContent] =>
+  def upload(schemaId: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     request.body.asJson match {
       case Some(json) =>
         SchemaService.upload(schemaId, json) match {
-          case Success(_) => Created(s"Schema $schemaId successfully uploaded")
+          case Success(_) =>
+            Created(s"Schema $schemaId successfully uploaded")
           case Failure(exception) =>
             BadRequest(s"Upload failed $exception for schema $schemaId")
         }
@@ -24,7 +25,7 @@ class SchemaController @Inject() (cc: ControllerComponents) extends AbstractCont
     }
   }
 
-  def download(schemaId: String): Action[_] = Action {
+  def download(schemaId: String): Action[AnyContent] = Action {
     SchemaService.download(schemaId) match {
       case Success(Some(schema)) =>
         Ok(Json.toJson(schema))

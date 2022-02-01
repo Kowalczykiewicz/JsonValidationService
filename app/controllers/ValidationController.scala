@@ -9,7 +9,7 @@ import scala.util.{ Failure, Success }
 @Singleton
 class ValidationController @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
 
-  def validate(schemaId: String): Action[_] = Action { implicit request: Request[AnyContent] =>
+  def validate(schemaId: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     request.body.asJson match {
       case Some(json) =>
         ValidationService.validate(schemaId, json) match {
