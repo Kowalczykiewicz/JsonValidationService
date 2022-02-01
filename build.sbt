@@ -1,4 +1,4 @@
-import Dependencies.{h2, scalaTest, slick}
+import Dependencies.{circeDeps, h2, scalaTest, slick}
 import sbt.Keys.resolvers
 
 lazy val root = (project in file("."))
@@ -8,7 +8,7 @@ lazy val root = (project in file("."))
     organization := "com.example",
     version := "1.0-SNAPSHOT",
     scalaVersion := "2.12.12",
-    libraryDependencies ++= Seq(h2, slick, scalaTest % "test"),
+    libraryDependencies ++= Seq(h2, slick, scalaTest % "test") ++ circeDeps,
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
