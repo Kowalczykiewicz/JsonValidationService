@@ -18,7 +18,7 @@ class ValidationController @Inject()(cc: ControllerComponents) extends AbstractC
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def validate() = Action { implicit request: Request[AnyContent] =>
+  def validate(schemaId: String) = Action { implicit request: Request[AnyContent] =>
     Ok("validate")
   }
 

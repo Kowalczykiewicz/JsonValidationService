@@ -18,11 +18,11 @@ class SchemaController @Inject()(cc: ControllerComponents) extends AbstractContr
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def upload() = Action { implicit request: Request[AnyContent] =>
+  def upload(schemaId: String) = Action { implicit request: Request[AnyContent] =>
     Ok("upload")
   }
   
-  def download() = Action { implicit request: Request[AnyContent] =>
+  def download(schemaId: String) = Action { implicit request: Request[AnyContent] =>
     Ok("download")
   }
 
