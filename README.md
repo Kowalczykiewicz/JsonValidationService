@@ -16,6 +16,7 @@ The following commands are executed from within the base directory (directory co
 
 ### Run 
     sbt run
+    curl http://localhost:9000 (returns the API)
 
 ### Run unit tests
     sbt test
@@ -27,7 +28,7 @@ Or from sbt console:
 
     ;clean ;coverage ;test ;coverageReport
 
-Results will be available in `target/scala-2.12/scoverage-report/index.html`.
+Results will be available in `target/scala-2.12/scoverage-report/index.html`
 
 ## Limitation note
 In-memory H2 database-config (in `application.conf`) => restart the app will lose the stored schemas
