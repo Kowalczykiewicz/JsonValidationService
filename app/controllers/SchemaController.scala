@@ -1,21 +1,22 @@
 package controllers
 
+import play.api.libs.circe.Circe
 import play.api.mvc._
-import services.DBService
+import services.StorageService
 
 import javax.inject._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class SchemaController @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
+class SchemaController @Inject() (cc: ControllerComponents) extends AbstractController(cc) with Circe {
 
   def upload(schemaId: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
     request.body.asJson match {
-      case Some(json) =>
-        DBService.upload(schemaId, json).map {
-          case Right(x) => Created(s"Schema $schemaId successfully uploaded")
-          case Left(x)  => BadRequest(s"Upload failed $x for schema $schemaId")
+      case Some(jsonRaw) =>
+        StorageService.upload(schemaId, jsonRaw.toString).map {
+          case Right(validResponse)  => Created(validResponse)
+          case Left(invalidResponse) => BadRequest(invalidResponse)
         }
       case None =>
         Future(BadRequest("Incorrect request, only JSONs are expected"))
@@ -23,9 +24,9 @@ class SchemaController @Inject() (cc: ControllerComponents) extends AbstractCont
   }
 
   def download(schemaId: String): Action[AnyContent] = Action.async {
-    DBService.download(schemaId).map {
-      case Some(schema) => Ok("schema")
-      case None         => NotFound(s"There is no schema $schemaId")
+    StorageService.download(schemaId).map {
+      case Some(schemaJson) => Ok(schemaJson)
+      case None             => NotFound(s"There is no schema $schemaId")
     }
   }
 

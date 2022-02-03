@@ -1,6 +1,7 @@
 package controllers
 
-class SchemaControllerTest {
-  //TODO add tests
+import org.scalatest.flatspec.AnyFlatSpec
 
+class SchemaControllerTest extends AnyFlatSpec {
+  //TODO add tests
 }

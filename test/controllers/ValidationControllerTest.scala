@@ -1,5 +1,7 @@
 package controllers
 
-class ValidationControllerTest {
+import org.scalatest.flatspec.AnyFlatSpec
+
+class ValidationControllerTest extends AnyFlatSpec{
   //TODO add tests
 }
