@@ -30,5 +30,5 @@ Or from sbt console:
 Results will be available in `target/scala-2.12/scoverage-report/index.html`.
 
 ## Limitation note
-In-memory H2 database-config (in `application.conf`) => restart the app will lose the stored schemas.
+In-memory H2 database-config (in `application.conf`) => restart the app will lose the stored schemas
 
